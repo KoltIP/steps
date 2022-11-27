@@ -1,6 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import classes  from '../styles/AddStepForm.css';
+import uuid from 'react-uuid';
+
+
 
 const AddStepForm = (props) => {
     
@@ -11,7 +14,10 @@ const AddStepForm = (props) => {
         var date = document.getElementById('date').value;
         var km = document.getElementById('km').value;
         if (date!='' && km!='')
-            action(date,km);
+        {
+            var result = {id:uuid(), date: date, km: km };
+            action(result);
+        }
     }
 
 

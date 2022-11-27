@@ -4,7 +4,12 @@ import classes  from '../styles/StepForm.css'
 
 const StepForm = (props) => {
 
-    const steps = props.steps;
+    const steps = props.steps.sort((a, b) => a.date < b.date ? 1 : -1);
+    const remove = props.action;
+
+    const Remove=(step)=>{
+        remove(step);        
+    }
 
     return(  
         <table className='stepContent'>
@@ -17,11 +22,14 @@ const StepForm = (props) => {
             </thead>
             <tbody>
                 {steps.map(
-                    (step,index) =>
-                        <tr key={index}>
+                    (step) =>
+                        <tr key={step.id}>
                             <td>{step.date}</td>
                             <td>{step.km}</td>
-                            <td>Удаление</td>
+                            <td>                                
+                                <span className='material-symbols-outlined'>edit</span>
+                                <span onClick={()=>Remove(step)}><span className='material-symbols-outlined'>close</span></span>
+                            </td>
                         </tr>
                     )}
             </tbody>
