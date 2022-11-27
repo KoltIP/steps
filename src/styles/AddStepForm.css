@@ -1,0 +1,22 @@
+.row {
+    font: small-caps bold 10px sans-serif;
+    margin-left: -10px;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+}
+
+.column{
+    margin:10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.button{
+    border: 1px solid black;
+    background-color: white;
+    border-radius: 6px;
+    width: 75px;
+    height: 25px;
+    margin-top: 20px;
+}
