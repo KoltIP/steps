@@ -1,14 +1,18 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
 import classes  from '../styles/StepForm.css'
 
 const StepForm = (props) => {
 
     const steps = props.steps.sort((a, b) => a.date < b.date ? 1 : -1);
-    const remove = props.action;
+    const remove = props.removeAction;
+    const open = props.openAction;
 
-    const Remove=(step)=>{
+    const RemoveHandler = (step) => {
         remove(step);        
+    }
+
+    const OpenEditMenu = (step) =>{
+        open(step);
     }
 
     return(  
@@ -27,8 +31,8 @@ const StepForm = (props) => {
                             <td>{step.date}</td>
                             <td>{step.km}</td>
                             <td>                                
-                                <span className='material-symbols-outlined'>edit</span>
-                                <span onClick={()=>Remove(step)}><span className='material-symbols-outlined'>close</span></span>
+                                <span onClick={()=>OpenEditMenu(step)}><span className='material-symbols-outlined'>edit</span></span>
+                                <span onClick={()=>RemoveHandler(step)}><span className='material-symbols-outlined'>close</span></span>
                             </td>
                         </tr>
                     )}

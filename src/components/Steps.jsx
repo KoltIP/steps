@@ -1,6 +1,5 @@
 import React from 'react';
 import { useState } from 'react';
-import ReactDOM from 'react-dom/client';
 import classes  from '../styles/Steps.css'
 import AddStepForm from './AddStepForm';
 import StepForm from './StepForm';
@@ -27,31 +26,48 @@ const Steps = () => {
             id : uuid(),
             date:'18.07.2019',
             km: 3.4
-        }
-    ]  
+        }]  
 
     const [results,setResults] = useState(data);
 
+    const [selectedResult,setSelectedResult] = useState() ;
+
+    const AddOrEdit = (result) => {
+        var exist = results.find(p=>p.date === result.date);
+        if (exist!==undefined)   
+        {            
+            var index = results.indexOf(exist);
+            let copy = Object.assign([], results);
+            if (result.id === exist.id)
+                copy[index] = result;  
+            else
+                copy[index].km = Number(result.km) + Number(exist.km);              
+            setResults(copy);   
+        }  
+        else
+            setResults([...results,result]);  
+        setSelectedResult();
+    }
+
+    const Open = (openResult) => {
+        setSelectedResult(openResult);
+    }
+
+    const Remove = (removeResult) =>{
+        setResults(results.filter(p=>p!==removeResult));
+    }
+
     return(  
         <div className='box'>
-            <AddStepForm  action = 
-            {
-                (result) => 
-                {
-                    var exist = results.find(p=>p.date.toLocaleLowerCase() === result.date.toLocaleLowerCase());
-                    if (exist!==undefined)   
-                    {
-                        var index = results.indexOf(exist);
-                        let copy = Object.assign([], results);
-                        copy[index].km = Number(result.km) + Number(exist.km);              
-                        setResults(copy);   
-                    }  
-                    else
-                        setResults([...results,result]);   
-                }            
-            }
+            <AddStepForm 
+                addAction =  {  (addResult) => {AddOrEdit(addResult);}  }
+                openResult = {selectedResult}
             />           
-            <StepForm steps = {results} action = {   (removeResult) => {setResults(results.filter(p=>p!==removeResult));      }          }/>
+            <StepForm 
+                steps = {results}
+                openAction = {(openResult) => {Open(openResult)}}
+                removeAction = {  (removeResult) => {Remove(removeResult)}  }
+            />
         </div>
     )    
 }

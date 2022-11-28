@@ -1,23 +1,30 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
 import classes  from '../styles/AddStepForm.css';
 import uuid from 'react-uuid';
 
-
-
 const AddStepForm = (props) => {
     
-    const action = props.action;
+    const action = props.addAction;
+    var selectedResult = props.openResult;
 
-    const Add = () =>
+    if (selectedResult !== undefined)
     {
+        document.getElementById('date').value = selectedResult.date;
+        document.getElementById('km').value = selectedResult.km;
+    }
+
+    const AddHandler = () =>
+    {        
+        var addId = selectedResult !== undefined ? selectedResult.id : uuid();
         var addDate = document.getElementById('date').value;
         var addKm = Number(document.getElementById('km').value);
-        if (addDate!=='' && addKm!==0)
+        if (addDate !== '' && addKm !== 0)
         {
-            var result = {id:uuid(), date: addDate, km: addKm };
+            var result = {id:addId, date: addDate, km: addKm };
             action(result);
         }
+        document.getElementById('date').value = "";
+        document.getElementById('km').value = "";
     }
 
 
@@ -34,7 +41,7 @@ const AddStepForm = (props) => {
                 <input id='km' />
             </div>
             
-            <button className='button' onClick={Add}>OK</button>
+            <button className='button' onClick={AddHandler}>OK</button>
        </div>
     )    
 }
