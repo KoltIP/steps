@@ -11,11 +11,11 @@ const AddStepForm = (props) => {
 
     const Add = () =>
     {
-        var date = document.getElementById('date').value;
-        var km = document.getElementById('km').value;
-        if (date!='' && km!='')
+        var addDate = document.getElementById('date').value;
+        var addKm = Number(document.getElementById('km').value);
+        if (addDate!=='' && addKm!==0)
         {
-            var result = {id:uuid(), date: date, km: km };
+            var result = {id:uuid(), date: addDate, km: addKm };
             action(result);
         }
     }

@@ -30,25 +30,28 @@ const Steps = () => {
         }
     ]  
 
-    const [results,setResults] = useState(data);    
+    const [results,setResults] = useState(data);
 
     return(  
         <div className='box'>
             <AddStepForm  action = 
             {
                 (result) => 
-                {    
-                    var exist = results.find(p=>p.date==result.date);
-                    if (exist)   
+                {
+                    var exist = results.find(p=>p.date.toLocaleLowerCase() === result.date.toLocaleLowerCase());
+                    if (exist!==undefined)   
                     {
-                        result.km = Number(result.km) + Number(exist.km);
-                        setResults((results) => (results.filter(p=>p.date!=exist.date)));
+                        var index = results.indexOf(exist);
+                        let copy = Object.assign([], results);
+                        copy[index].km = Number(result.km) + Number(exist.km);              
+                        setResults(copy);   
                     }  
-                    setResults([...results,result]);   
+                    else
+                        setResults([...results,result]);   
                 }            
             }
             />           
-            <StepForm steps = {results} action = {   (removeResult) => {setResults(results.filter(p=>p!=removeResult));      }          }/>
+            <StepForm steps = {results} action = {   (removeResult) => {setResults(results.filter(p=>p!==removeResult));      }          }/>
         </div>
     )    
 }
